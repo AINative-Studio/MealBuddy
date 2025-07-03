@@ -73,6 +73,10 @@ class Settings(BaseSettings):
     # First superuser
     FIRST_SUPERUSER_EMAIL: EmailStr = "admin@mealbuddy.app"
     FIRST_SUPERUSER_PASSWORD: str = "changeme"
+
+    # Google OAuth
+    GOOGLE_CLIENT_ID: Optional[str] = None
+    GOOGLE_CLIENT_SECRET: Optional[str] = None
     
     # Debug mode
     DEBUG: bool = False
@@ -84,6 +88,6 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-# Update database URI if not set
-if not settings.DATABASE_URI:
+# Update database URL if not set
+if not settings.DATABASE_URL:
     settings.DATABASE_URI = f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}/{settings.POSTGRES_DB}"
