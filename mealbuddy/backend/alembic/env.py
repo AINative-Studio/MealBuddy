@@ -80,8 +80,11 @@ async def run_migrations_online() -> None:
     In this scenario we need to create an Engine
     and associate a connection with the context.
     """
-    # Get the database URL from settings
-    connectable = create_async_engine(settings.DATABASE_URL)
+    # Convert PostgresDsn to string if needed
+    database_url = str(settings.DATABASE_URL)
+    # Ensure we're using the asyncpg driver
+    database_url = database_url.replace("postgresql://", "postgresql+asyncpg://")
+    connectable = create_async_engine(database_url)
     
     async with connectable.connect() as connection:
         await connection.run_sync(do_run_migrations)
